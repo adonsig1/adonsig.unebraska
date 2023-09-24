@@ -1,0 +1,66 @@
+\documentclass[12pt]{newtest}
+\usepackage{amsmath}
+\testdate{9 June 09}
+\course{Math 896-503}
+\header{Assignment \# 2}
+\instructions{Due: June 10th}
+
+\newcommand{\ii}{\vec{\imath}}
+\newcommand{\jj}{\vec{\jmath}}
+\newcommand{\kk}{\vec{k}}
+\newcommand{\vecc}[1]{\mathbf{#1}}
+\newcommand{\ep}{\epsilon}
+% \newcommand{\det}{\hbox{det}\,}
+\newcommand{\spann}{\hbox{Span}}
+\newcommand{\lip}{\left\langle}
+\newcommand{\rip}{\right\rangle}
+\newcommand{\rank}{\hbox{rank}\,}
+\newcommand{\Nul}{\hbox{Nul}\,}
+\newcommand{\Col}{\hbox{Col}\,}
+\newcommand{\mesh}{\hbox{mesh}\,}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\sR}{\mathcal{R}}
+\newcommand{\sS}{\mathcal{S}}
+\newcommand{\sT}{\mathcal{T}}
+\newcommand{\dsum}{\sum\limits}
+\newcommand{\dlim}{\lim\limits}
+
+
+\newcommand{\extra}{\textsc{Extra Credit:}\,\,}
+\newcommand{\hint}{\textsc{Hint:}\,\,}
+\newcommand{\bhint}{\\ \hint}
+
+
+\begin{document}
+\question{
+Consider the function $F : \bR^2 \to \bR$ given by
+\[ F(x,y) = \begin{cases} \dfrac{2x^2y}{x^4+y^2} & \hbox{if $(x,y) \ne (0,0)$,} \\
+        0 & \hbox{if $(x,y) = (0,0)$.} \end{cases} \]
+\begin{enumerate}
+\item Show, for any straight line $L$ through $(0,0)$, the limit of
+$F$ along the line $L$ is $0$.
+\item Show that, for the function $\phi : \bR \to \bR^2 : t \mapsto (t,t^2)$,
+$\displaystyle \lim_{t \to 0} F(\phi(t)) = 1$.
+\item Is it true that $\displaystyle \lim_{(x,y)\to(0,0)} F(x,y) = 0$?
+Justify your answer.
+\end{enumerate}
+}{
+}
+%\question{
+%Consider the function $F : \bR^3 \to \bR$ given by $F(x,y,z)=x^2+y^2+z^2$.
+%\begin{enumerate}
+%\item Find the differential of $F$ at $a=(3,2,6)$, $dF_a$,
+%which is a linear transformation from $\bR^3$ to $\bR^3$.
+%\item Using the differential, find an approximate value for $3.02^2+1.97^2+5.98^2$.
+%\end{enumerate}
+%}{
+%}
+\end{document}

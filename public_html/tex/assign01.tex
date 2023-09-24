@@ -1,0 +1,64 @@
+\documentclass[12pt]{newtest}
+\usepackage{amsmath}
+\testdate{8 June 09}
+\course{Math 896-503}
+\header{Assignment \# 1}
+\instructions{Due: June 9th}
+
+\newcommand{\ii}{\vec{\imath}}
+\newcommand{\jj}{\vec{\jmath}}
+\newcommand{\kk}{\vec{k}}
+\newcommand{\vecc}[1]{\mathbf{#1}}
+\newcommand{\ep}{\epsilon}
+% \newcommand{\det}{\hbox{det}\,}
+\newcommand{\spann}{\hbox{Span}}
+\newcommand{\lip}{\left\langle}
+\newcommand{\rip}{\right\rangle}
+\newcommand{\rank}{\hbox{rank}\,}
+\newcommand{\Nul}{\hbox{Nul}\,}
+\newcommand{\Col}{\hbox{Col}\,}
+\newcommand{\mesh}{\hbox{mesh}\,}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\sR}{\mathcal{R}}
+\newcommand{\sS}{\mathcal{S}}
+\newcommand{\sT}{\mathcal{T}}
+\newcommand{\dsum}{\sum\limits}
+\newcommand{\dlim}{\lim\limits}
+
+
+\newcommand{\extra}{\textsc{Extra Credit:}\,\,}
+\newcommand{\hint}{\textsc{Hint:}\,\,}
+\newcommand{\bhint}{\\ \hint}
+
+
+\begin{document}
+\question{
+Prove that
+$\displaystyle \lim_{x \to 3} 10^{-1/(x-3)^2}=0$ using the $\delta$--$\epsilon$ definition.
+}{
+}
+\question{
+Explain \textit{exactly} what is meant by 
+$\displaystyle \lim_{x \to 0^+} (1-e^{1/x}) = -\infty$.
+}{
+}
+\question{
+For $S$ a subset of $\bR^n$, define
+$\displaystyle S^\perp = \{ x \in \bR^n : x \cdot s = 0 \hbox{ for all } s \in S \}$.
+\begin{enumerate}
+\item Show that $S^\perp$ is a subspace of $\bR^n$.
+\item Show that $S^\perp = (\spann S)^\perp$.
+\item Show that $S \subseteq (S^\perp)^\perp$.
+\item Show there is a nonempty set $S$ with $S \ne (S^\perp)^\perp$.
+\end{enumerate}
+}{
+}
+\end{document}
