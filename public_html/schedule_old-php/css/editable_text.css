@@ -1,0 +1,17 @@
+IMG.editable_text {
+	border: 0px;
+	vertical-align: -0.1em;
+}
+
+SPAN.editable_text A {
+	background-color: white;
+	margin-left: 2px;
+	border: solid #e0e0e0 1px;
+}
+
+SPAN.editable_text A:hover {
+	border-top: solid #a0a0a0 1px;
+	border-right: solid #404040 1px;
+	border-bottom: solid #404040 1px;
+	border-left: solid #a0a0a0 1px;
+}

@@ -1,0 +1,4 @@
+106c106
+< 				LEFT OUTER JOIN attending a ON a.class = cl.id AND a.session = cl.session AND a.instructor='$instructor'
+---
+> 				LEFT OUTER JOIN attending a ON a.class = cl.id AND a.session = cl.session
