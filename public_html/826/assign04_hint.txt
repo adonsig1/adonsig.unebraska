@@ -1,0 +1,15 @@
+First, show if the result is true for a translate of a set A, then 
+it is true for A.  Thus, it suffices to prove the problem when we 
+translate A so Phi(v)=0.  
+
+Let J be all vectors j so that the inner product of j and Phi(w) is 
+positive.  Show that v cannot be in J (if it were, show that there is 
+some number alpha with the norm of v-alpha*Phi(w) less than the norm 
+of v and use this to get a contradiction).
+
+Next, let I be the set of all vectors i so that the inner product of
+i-Phi(w) and Phi(w) is negative.  Use a similar argument to show that
+w cannot be in I.
+
+Use the results of the previous two paragraphs to show that v-w must
+be at least the norm of Phi(w).

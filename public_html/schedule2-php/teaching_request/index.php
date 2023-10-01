@@ -1,0 +1,548 @@
+<?php	
+	require_once '../common.php';	
+	
+	$MAX_PREF = 16; // The "good prefs" are numbered decreasing from this 
+	
+	$user = getUser(INSTR_PRIV);
+	if (! $user) {
+		return; 
+	}
+	
+	db_connect();
+	$current_session = mysql_real_escape_string($_REQUEST['session']);
+	$current_session = $current_session ? $current_session : "spr09";
+	$current_session_name = get_current_session_name();
+	
+	function make_time_select($id) {
+		global $current_session, $user;
+		$instructor = $user["login"];
+		
+		$times = array(
+			"7:30AM","8:00AM","8:30AM","9:00AM","9:30AM","10:00AM","10:30AM",
+			"11:00AM","11:30AM","12:00PM","12:30PM","1:00PM","1:30PM",
+			"2:00PM","2:30PM","3:00PM","3:30PM","4:30PM", "5:00PM", "5:30PM", "6:00PM"
+		);
+		
+		if ($id == 'good_times') {
+			$pref_crit = 'pref > 0';
+			$pref_order = 'DESC';
+		} else {
+			$pref_crit = 'pref < 0';
+			$pref_order = 'ASC';
+		}
+		
+		$query =
+			"SELECT
+				CONCAT(TIME_FORMAT(start, '%h:%i%p'), ' - ', TIME_FORMAT(end, '%h:%i%p'), ' ', days) AS text
+			FROM pref_times
+			WHERE instructor = '$instructor' AND session = '$current_session' AND $pref_crit
+			ORDER BY pref $pref_order";
+		
+		include 'time_select.php';
+	}
+
+
+        /*
+         * Get instructor's role
+         */
+        function get_instructor_role($id) {
+                $query = <<<SQL
+                        SELECT inn.role AS role 
+                        FROM
+                                instructors inn 
+                        WHERE
+                                inn.id = '$id'
+SQL;
+                $rs = mysql_query($query);
+                if (mysql_num_rows($rs) > 0) {
+                        $r = mysql_fetch_array($rs);
+                        return $r["role"];
+                } else {
+                        return "null";
+                }
+        }
+
+	
+	function make_course_select($id) {
+		global $current_session, $user;
+		$instructor = $user["login"];
+	
+		if ($id == 'good_courses') {
+			$pref_crit = 'pr.pref < 0';
+		} else {
+			$pref_crit = 'pr.pref > 0';
+		}
+
+
+                if ( get_instructor_role($user["login"])=='gta') {
+			$gtaflag='co.GTAteach >= 1';
+		} else {
+			$gtaflag='co.GTAteach >= 0';
+		}
+		
+		$query_non = 
+			"SELECT DISTINCT
+			   CONCAT('Math ', co.id, ', ', co.name) AS text,
+			   co.id AS value
+			FROM
+				courses co INNER JOIN classes cl ON co.id = cl.course 
+				LEFT OUTER JOIN pref_courses pr ON pr.course = co.id
+			WHERE 
+				$gtaflag
+				AND 
+				cl.session = '$current_session' 
+				AND (
+					pr.instructor IS NULL 
+					OR (
+						pr.instructor <> '$instructor' OR $pref_crit
+					)
+				)
+			ORDER BY text";
+		
+		if ($id == 'good_courses') {
+			$pref_crit = 'pr.pref > 0';
+			$pref_order = 'DESC';
+		} else {
+			$pref_crit = 'pr.pref < 0';
+			$pref_order = 'ASC';
+		}
+		
+		# we don't restricted selected courses by GTA preferences
+		$query_sel =
+			"SELECT
+			   CONCAT('Math ', co.id, ', ', co.name) AS text,
+			   co.id AS value
+			FROM 
+				pref_courses pr INNER JOIN courses co ON pr.course = co.id
+			WHERE 
+				pr.instructor = '$instructor' AND pr.session = '$current_session' AND $pref_crit
+			ORDER BY pref $pref_order";
+		
+		include 'course_select.php';
+	}
+	
+	function make_class_select($id) {
+		global $current_session, $user;
+		$instructor = $user["login"];
+		
+		$query_non = 
+			// this selection should really include the second meeting time, but I'm skiping it, since I don't think
+			// grad classes will ever have such a schedule  APD March 27, 2014
+			"SELECT
+				CONCAT(
+					'Math ', co.id, ', ', co.name, ' ', 
+					TIME_FORMAT(cl.starttime, '%h%i'), '-', TIME_FORMAT(cl.endtime,'%h%i%p'),
+			 		' ', cl.days
+			 	) AS text,
+			 	cl.id AS value
+			FROM 
+				courses co INNER JOIN classes cl ON co.id = cl.course 
+				LEFT OUTER JOIN attending a ON a.class = cl.id AND a.session = cl.session AND a.instructor='$instructor'
+			WHERE 
+				cl.session = '$current_session' 
+				AND (a.instructor IS NULL OR a.instructor <> '$instructor')
+				AND (LEFT(co.id, 1) = '8' 
+					 OR LEFT(co.id, 1) = '9' 
+					 OR (LEFT(co.id, 1) = '4' AND LENGTH(co.id) > 4 AND SUBSTRING(co.id, 5, 1) = '8'))
+                        ORDER BY
+                                co.id";
+		
+		$query_sel =
+			// this selection should really include the second meeting time, but I'm skiping it, since I don't think
+			// grad classes will ever have such a schedule  APD March 27, 2014
+			"SELECT
+				CONCAT(
+					'Math ', co.id, ', ', co.name, ' ', 
+					TIME_FORMAT(cl.starttime, '%h%i'), '-', TIME_FORMAT(cl.endtime,'%h%i%p'),
+			 		' ', cl.days
+			 	) AS text,
+			 	cl.id AS value
+			FROM 
+				courses co INNER JOIN classes cl ON co.id = cl.course 
+				INNER JOIN attending a ON a.class = cl.id AND a.session = cl.session
+			WHERE 
+				cl.session = '$current_session'
+				AND a.instructor = '$instructor'
+                        ORDER BY
+                                co.id";
+		
+		$unordered_list = 1;
+		include 'course_select.php';
+	}
+	
+	function get_comments() {
+		global $current_session, $user;
+		$instructor = $user["login"];
+		
+		$query = 
+			"SELECT comment 
+			FROM pref_comments 
+			WHERE instructor = '$instructor' AND session = '$current_session'";
+		$rs = mysql_query($query);
+		if ($r = mysql_fetch_assoc($rs)) {
+			return $r["comment"];
+		}
+	}
+	
+	function get_current_session_name() {
+		global $current_session;
+		$query = "SELECT name FROM sessions WHERE id = '$current_session'";
+		$rs = mysql_query($query);
+		if (mysql_num_rows($rs) > 0) {
+			$r = mysql_fetch_assoc($rs);
+			return $r["name"];
+		} else {
+			return "{$current_session}";
+		}
+	}
+	
+	function do_submit_request() {
+		global $current_session, $user, $MAX_PREF;
+		$id = $user["login"];
+		
+		$query = "DELETE FROM pref_courses WHERE instructor = '$id' AND session = '$current_session'";
+		mysql_query($query) or die(mysql_error());
+		read_course_prefs(TRUE);
+		read_course_prefs(FALSE);
+		
+		$query = "DELETE FROM pref_times WHERE instructor = '$id' AND session = '$current_session'";
+		mysql_query($query) or die(mysql_error());
+		read_time_prefs(TRUE);
+		read_time_prefs(FALSE);
+		
+		read_bad_classes();
+		read_comments();
+	}
+	
+	function read_course_prefs($good) {
+		global $current_session, $user, $MAX_PREF;
+		
+		$id = $user["login"];
+		$courses = $_REQUEST[$good ? "good_courses" : "bad_courses"];
+		
+		$num = count($courses);
+		for ($i=0; $i<$num; $i++) {
+			$course = mysql_real_escape_string($courses[$i]);
+			$pref = $good ? $MAX_PREF - $i : $i - $MAX_PREF;
+			$query = 
+				"INSERT INTO pref_courses 
+					(instructor, session, course, pref) 
+				VALUES 
+					('$id', '$current_session', '$course', $pref)";
+			mysql_query($query) or die(mysql_error());
+		}
+	}
+	
+	function read_time_prefs($good) {
+		global $current_session, $user, $MAX_PREF;
+		
+		$id = $user["login"];
+		$times = $_REQUEST[$good ? "good_times" : "bad_times"];
+		
+		$num = count($times);
+		for ($i=0; $i<$num; $i++) {
+			$time_range = mysql_real_escape_string($times[$i]);
+			preg_match("/^(.*) - (.*) (.*)$/", $time_range, $a);
+			$start = $a[1];
+			$end = $a[2];
+			$days = $a[3];
+			$pref = $good ? $MAX_PREF - $i : $i - $MAX_PREF;
+			$query = 
+				"INSERT INTO pref_times 
+					(instructor, session, start, end, days, pref) 
+				VALUES 
+					(
+						'$id', '$current_session', 
+						str_to_date('$start', '%h:%i%p'), 
+						str_to_date('$end', '%h:%i%p'), 
+						'$days', $pref
+					)";
+			mysql_query($query) or die(mysql_error());
+		}
+	}
+	
+	function read_bad_classes() {
+		global $current_session, $user, $MAX_PREF;
+		$id = $user["login"];
+		$classes = $_REQUEST["bad_classes"];
+		
+		$query = 
+			"DELETE FROM attending WHERE instructor = '$id' AND session = '$current_session'";
+		mysql_query($query) or die(mysql_error());
+		
+		$num = count($classes);
+		for ($i=0; $i<$num; $i++) {
+			$class = $classes[$i];
+			$query =
+				"INSERT INTO attending
+					(instructor, class, session)
+				VALUES
+					('$id', '$class', '$current_session')";
+			mysql_query($query) or die(mysql_error());
+		}
+	}
+	
+	function read_comments() {
+		global $current_session, $user;
+		
+		$id = $user["login"];
+		$comments = mysql_real_escape_string($_REQUEST["comments"]);
+		
+		$query = 
+			"DELETE FROM pref_comments WHERE instructor = '$id' AND session = '$current_session'";
+		mysql_query($query) or die(mysql_error());
+		
+		$query = 
+			"INSERT INTO pref_comments
+				(instructor, session, comment)
+			VALUES
+				('$id', '$current_session', '$comments')";
+		mysql_query($query) or die(mysql_error());
+	}
+	
+	function send_summary_email() {
+		global $ROOT, $user, $current_session_name;
+		
+		$email = $user["email"];
+		
+		if (! $email) {
+			return FALSE;
+		}
+		
+		$fn = $user["fn"];
+		$ln = $user["ln"];
+		$list = get_summary_list();
+		$message = <<<MAIL
+Dear $fn,
+
+Thank you for completing the on-line teaching preferences form
+for $current_session_name at http://www.math.unl.edu/$ROOT/ 
+
+The following information has been recorded:
+
+$list
+
+If you want to make any changes to this information, simply
+return to the site and log in with the same ID and password.
+
+Thanks!
+		
+MAIL;
+		return mail(
+			$email, 
+			"Teaching preferences: Confirmation",
+			$message,
+			"Reply-To: aradcliffe1@math.unl.edu"
+		);
+		/*
+		return mail(
+			"aradcliffe1@math.unl.edu", 
+			"BACKUP: $fn $ln",
+			$message,
+			"Reply-To: aradcliffe1@math.unl.edu"
+		);
+		*/
+		
+	}
+	
+	function get_summary_list() {
+		$text = "";
+		$text .= "Preferred Courses:\n";
+		$text .= list_array($_REQUEST["good_courses"]);
+		$text .= "\n";
+		$text .= "Courses to Avoid:\n";
+		$text .= list_array($_REQUEST["bad_courses"]);
+		$text .= "\n";
+		$text .= "Preferred Times:\n";
+		$text .= list_array($_REQUEST["good_times"]);
+		$text .= "\n";
+		$text .= "Times to Avoid:\n";
+		$text .= list_array($_REQUEST["bad_times"]);
+		$text .= "\n";
+		$text .= "Classes Attending:\n";
+		$text .= list_array($_REQUEST["bad_classes"]);
+		$text .= "\n";
+		$text .= "Other Comments:\n";
+		$text .= $_REQUEST["comments"];
+		
+		return $text;
+	}
+	
+	function list_array($a) {
+		$s = "";
+		$n = count($a);
+		for ($i=0; $i<$n; $i++) {
+			$s .= " " . ($i + 1) . ") " . $a[$i] . "\n";
+		}
+		return $s;
+	}
+
+?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Teaching Request Form</title>
+		<script type="text/javascript" src="scripts.js"></script>
+		<script type="text/javascript">
+			function doCancel() {
+				if (confirm("Do you want to cancel your teaching request without sending it?")) {
+					window.location = "/<?php echo $ROOT ?>";
+				}
+			}
+		</script>
+
+		<link rel="stylesheet" href="../css/main.css">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<?php 
+			include '../std_header.php';
+			
+			$action_done = 0;
+			if ($_REQUEST["action"] == "submit_request") {
+				do_submit_request();
+				$email_status = send_summary_email();
+				$action_done = 1;
+			}
+			
+			if ($action_done):  
+		?>
+		
+			<h1>Confirmation</h1>
+			
+			<p>
+				Thank you for completing the on-line teaching preferences form
+				for <?php echo $current_session_name ?>.
+				
+				<?php if ($email_status) : ?> 
+					A confirmation email containing the following information
+					has been sent to you.
+				<?php else : ?>
+					The following information has been recorded for you.
+					Please print this page for your records.
+				<?php endif;?>
+			</p>
+			
+			<div class="summary_list"><?php echo str_replace("\n", "<br>\n", get_summary_list()) ?></div>
+			
+			<p>
+				If you would like to make changes to this data, you
+				can log in to this page again, and edit your choices.
+			</p>
+		
+		<?php 
+			else : // proceed to the end of the form...
+		?>
+					
+		<form name="main_form" method="post" action="index.php">
+			<input type="hidden" name="action" value="submit_request">
+			<input type="hidden" name="session" value="<?php echo $current_session ?>">
+
+		<h1>Teaching Preferences Form for <?php echo $current_session_name ?></h1>
+			
+			<p>
+				Welcome, <?php echo $user["fn"] ?> <?php echo $user["ln"] ?>. 
+				Please use this form to indicate your teaching preferences for
+				<b><?php echo $current_session_name ?></b>. If you strongly prefer not to use this
+				web form, you can send an email with your teaching preferences to
+				<a href="mailto:adonsig1@unl.edu">Allan Donsig</a>.
+			</p>
+			
+			<?php 
+				$credit_hours = get_credit_hours($user["login"], $current_session);
+				
+				if ($credit_hours) :
+			?>
+			
+			<div class="displaybox">
+				<b>Note:</b>
+				My records are that you are planning to teach 
+				<b><?php echo $credit_hours ?> credit hours</b> this semester.
+				If this is not correct, please contact
+				<a href="mailto:adonsig1@unl.edu">Allan Donsig</a>
+			</div>
+			
+			<?php 
+				endif;
+			?>
+			
+			<h2>Course Preferences</h2>
+			
+			<p class="instruction">
+				<span class="count">1</span>
+				Please select the courses which you would most <b>like</b> to teach,
+				with your highest preference at the <b>top</b> of the list.
+				<?php $role = get_instructor_role($user["login"]);
+				if ( ($role=='fac') OR ($role=='pd') ) { ?>
+				Include in this list any courses which it was agreed you would teach
+				at one of the course planning meetings last fall:
+				<?php } ?>
+			</p>
+			
+			<?php make_course_select("good_courses"); ?>
+			
+			<p class="instruction">
+				<span class="count">2</span>
+				Please select any courses which you would like to <b>avoid</b> teaching,
+				with the course you <b>least</b> want to teach at the <b>top</b>:
+			</p>
+			
+			<?php make_course_select("bad_courses"); ?>
+			
+			<h2>Time Preferences</h2>
+			
+			<p class="instruction">
+				<span class="count">3</span>
+				Please select blocks of time at which you <b>prefer</b> to teach.
+			</p>
+			
+			<?php make_time_select("good_times"); ?>
+		
+			<p class="instruction">
+				<span class="count">4</span>
+				Please select blocks of time at which you are <b>unable</b> to teach.
+				If the reason you are unable to teach at a certain time is because you
+				are taking a class, please select the class from the 
+				list below <b>instead</b> of listing the time here.
+			</p>
+			
+			<?php make_time_select("bad_times"); ?>
+		
+			<p class="instruction">
+				<span class="count">5</span>
+				Please select any classes which you are <b>attending</b> as a student:
+			</p>
+			
+			<?php make_class_select("bad_classes"); ?>
+
+			<p class="instruction">
+				<span class="count">6</span>
+				Enter any other information related to your teaching preferences.
+			</p>
+			
+			<textarea name="comments" rows="8" cols="60" class="extra_info"><?php echo get_comments();	?></textarea>
+
+			<p class="instruction">
+				<span class="count">7</span>
+				Please review your entries and then click <i>Submit</i> to
+				send your request.
+			</p>
+			
+			<center>
+			<?php 
+				make_button("Submit request", "../images/tick.png", "doSubmit()");
+				echo "&nbsp;";
+				make_button("Cancel", "../images/cross.png", "doCancel()");
+			?>
+			</center>
+			
+		</form>
+		
+		<?php 
+			endif;
+		?>
+		
+		<?php 
+			include '../std_footer.php';
+		?>
+	</body>
+</html>

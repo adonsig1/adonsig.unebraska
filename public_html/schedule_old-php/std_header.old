@@ -1,0 +1,25 @@
+<?php 
+	require_once('common.php');
+	session_start();
+	$user = $_SESSION["user"];
+?>
+<div class="banner">
+	<a href="/<?php echo $ROOT ?>"><img src="/<?php echo $ROOT ?>/images/webskate101_sm.png" border="0"></a>
+</div>
+<div class="top_name_bar">
+	<?php 
+		if ($user) {
+			echo "Welcome, " . $user["fn"] . " ". $user["ln"] . " ";
+			echo "<a href=\"/$ROOT/logout_handler.php\">Sign out</a> | ";
+			echo "<a href=\"/$ROOT/prefs.php\">User prefs</a> | ";
+			
+			foreach ($toplinks as $name => $href) {
+				echo "<a href=\"$href\">$name</a> | ";
+			}
+			
+		} else {
+			echo "<a href=\"/$ROOT/login.php\">Sign in</a> | ";
+		}
+	?>
+	<a href="/<?php echo $ROOT ?>/index.php">Home</a>
+</div>

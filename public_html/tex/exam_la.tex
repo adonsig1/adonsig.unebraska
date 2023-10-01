@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amstext,amssymb}
+% \usepackage{fancyheadings}
+\usepackage{fullpage}
+
+\def\sB{{\cal B}}
+\def\sC{{\cal C}}
+\def\sF{{\cal F}}
+\def\sG{{\cal G}}
+\def\sH{{\cal H}}
+\def\sL{{\cal L}}
+\def\sM{{\cal M}}
+\def\sP{{\cal P}}
+\def\sT{{\cal T}}
+\def\bC{\mathbb{C}}
+\def\bR{\mathbb{R}}
+\def\bN{\mathbb{N}}
+\def\bT{\mathbb{T}}
+\newcommand{\dlimi}[1]{{ \lim\limits_{#1 \rightarrow \infty} }}
+\newcommand{\dlim}{\lim\limits}
+\newcommand{\dsum}{\sum\limits}
+\newcommand{\sequ}[2][n]{{ \left( #2 \right)_{#1=1}^{\,\,\,\,\,\infty} }}
+
+
+% \pagestyle{fancy}
+% \lhead{AM 331/PMATH 331}
+% \rhead{Final Exam, Winter '97}
+\reversemarginpar
+\setlength{\marginparwidth}{55pt}%
+\setlength{\oddsidemargin}{20pt}%
+\setlength{\evensidemargin}{20pt}%
+\setlength{\textwidth}{6in}%
+\begin{document}
+
+\thispagestyle{plain}
+
+\begin{center}
+{\large \bf University of Waterloo }\\
+{\large \bf Waterloo, Ontario}\\ 
+\bf AM 331/PMATH 331 -- $\bR$eal Analysis \\
+\large Final Exam -- Winter 1997 \\
+9-12, April 23, 1997, MC 4040
+\end{center}
+
+\bigskip
+\begin{verse} \bf
+100 points \hfill 3 hours \\
+Instructor: A. Donsig \hfill no aids \\
+\end{verse}
+
+\noindent
+{\large \bf Part A}
+\medskip
+
+\begin{enumerate}
+
+\item For each \marginpar{$18 = 6 \times 3$} of the following, either 
+	carefully state the theorem or define the concept:
+	\begin{enumerate}
+	\item Cauchy sequence,
+	\item The Extreme Value Theorem,
+	\item Uniform continuity of a function $f : \bR \to \bR $,
+	\item A compact subset of a normed vector space $(V,\|\cdot\|)$,
+	\item The Weierstrass Approximation Theorem, and
+	\item The Fourier Series of a function $f : \bR \to \bR$.
+	\end{enumerate}
+
+\item State and prove \marginpar{$12$} the Banach Contraction Princple.
+
+\end{enumerate}
+
+\noindent
+{\large \bf Part B}
+\medskip
+
+Answer any {\bf five} of the following questions:\marginpar{$60 = 5 \times 12$}
+
+\begin{enumerate}
+\item If the sequence $\bigl( a_n \bigr)$ satisfies
+	$$ a_n \le a_{n+1} \le a_n + \frac 1 {2^n} $$
+	for $n=1,2,3,\ldots$, then prove that $\bigl( a_n \bigr)$
+	converges and $\dlim_{n \to \infty} a_n \le a_1 + 1 $.
+
+\item Prove that if a sequence of functions $f_n \in C[0,1]$
+	converges uniformly to $f \in C[0,1]$, i.e., $\|f-f_n\|_\infty \to 0$,
+	then
+	$$ \lim_{n\to\infty} \int_0^1 f_n(t)\, dt = \int_0^1 f(t)\, dt.$$
+
+\item If $A \subset V$, where $(V,\|\cdot\|)$ is a normed vector
+	space, then the interior of $A$, denoted $A^0$, is the set of all
+	$a \in A$ for which there is a $\delta > 0$ with
+		$$ \{ v \in V : \| a - v \| < \delta \} \subset A. $$
+	Prove that $A^0$ is open and if $G \subset A$ and $G$ is open, then
+	$G \subset A^0$.
+
+\item Using Chebyshev polynomials, find a polynomial of degree 6 to
+	approximate $x^8-2x^7$ for $x \in [-1,1]$ and find an upper 
+	bound on the error.
+
+\item Prove that the integral equation 
+	$\displaystyle f(x) = \int_0^x e^{-t} f(t) \, dt $
+	has a unique solution in $(C[0,b],\|\cdot\|_\infty)$.
+
+\item If $f(x) = x^2$, $x \in [-\pi,\pi]$, then show that
+	$\displaystyle f(x) \sim \frac {\pi^2} 3 + \sum_{k=1}^\infty  
+		\frac {4(-1)^k} {k^2} \cos kx $
+	and use this to evaluate $\dsum_{k=1}^\infty 1/k^2$.
+
+\end{enumerate}
+
+\noindent
+{\large \bf Part C}
+\medskip
+
+Answer any {\bf one} of the following questions: \marginpar{$10$}
+
+\begin{enumerate}
+\item Suppose that $\sequ {a_n}$ is a sequence of non-negative terms
+	with $a_1 \ge a_2 \ge \cdots \ge 0$.  Prove that 
+	$\dsum_{k=1}^\infty a_k$ converges if and only if 
+	$\dsum_{k=1}^\infty 2^k a_{2^k}$ converges.
+
+	\textsl{Hint:} Compare $(a_1,a_2,a_3,a_4,\ldots)$ with 
+	$(a_1/2,a_2,a_4,a_4,a_8,a_8,a_8,a_8,a_{16},a_{16}\ldots)$
+	and with $(a_1,a_2,a_2,a_4,a_4,a_4,a_4,a_8,a_8\ldots)$.
+
+\item For every function $f: [0,1] \to \bR$, we have its graph in $\bR^2$,
+	namely the set $G(f) = \{ (x,f(x)) : x \in [0,1] \}$.
+	Show  $f$ is continuous if and only if $G(f)$ is a compact
+	subset of $\bR^2$.
+
+\item Show that for $-1 < t < 1$, we have $\displaystyle 
+	\sum_{n=0}^\infty T_n(x) t^n = \frac {1-tx} {1-2tx+t^2}$.
+
+	\textsl{Hint:} first look at the real part of $(e^{i\theta})^n$ where 
+	$\cos\theta=x$.
+
+\end{enumerate}
+
+\bigskip
+\begin{center} \bf Table of Chebyshev Polynomials \end{center}
+
+\begin{align*}
+T_0(x) &= 1\\
+T_1(x) &= x \\
+T_2(x) &= 2x^2   - 1 \\
+T_3(x) &= 4x^3   - 3x \\
+T_4(x) &= 8x^4   - 8x^2   + 1 \\
+T_5(x) &= 16x^5  - 20x^3  + 5x \\
+T_6(x) &= 32 x^6 - 48x^4  + 18x^2  - 1 \\
+T_7(x) &= 64 x^7 - 112x^5 + 56x^3  - 7x \\
+T_8(x) &= 128x^8 - 256x^6 + 160x^4 - 32x^2 + 1
+\end{align*}
+
+\end{document}
+

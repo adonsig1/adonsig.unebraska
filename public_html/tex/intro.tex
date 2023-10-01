@@ -1,0 +1,396 @@
+% intro to latex   March 21, 2000
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+
+% define macros
+\newcommand{\latex}{\LaTeX\ }
+\newcommand{\tex}{\TeX\ }
+\newcommand{\vect}[1]{(#1_1,\ldots,#1_n)}
+
+\begin{document}
+\title{A Short Introduction to \latex}
+\author{Allan Donsig}
+\date{March, 2000}
+\maketitle
+
+\section{Typesetting, \tex, and \latex} 
+
+\latex is a typesetting system, particularly well suited to 
+producing mathematical and scientific documents.
+It is the \textit{de facto} standard for articles in mathematics, 
+physics, and other sciences.
+For example, look at the archive of papers at \texttt{www.arXive.org}.
+The vast majority of all new papers in physics and many papers in
+mathematics appear at this site, as preprints written in \latex.
+
+\latex is an extension of a slightly earlier system, \tex, developed
+by one of the greatest computer scientists this century, Donald E. Knuth.
+The goal of these programs, first written in the early eighties, is to 
+produce the best possible typeset document, beautiful as well as functional.
+They have held up very well, in spite of using batch processing.
+By the way, the work \tex comes from technology, not Texas; as Knuth 
+elegantly puts it, `When you say it correctly to your computer, the terminal 
+may become slightly moist'.
+
+Sadly, \latex itself comes in two very-so-slightly-incompatible versions.
+I'll concentrate on the new one, \latex2e, in preference to the older
+one, \latex 2.09.
+
+\latex works in six steps.
+\begin{enumerate}
+\item You write a text file specifying the document you want 
+	(the \texttt{.tex} file).
+\item You process the text file, to get the typeset document
+	(the \texttt{.dvi} file).
+\item If \latex complains during the processing, you can look
+	(and sometimes fix) problems on the fly.
+\item You look at the output (there are several ways to do this).
+\item If you're not happy with the output, you revise the file,
+	i.e., repeat the first four steps.
+\item Once you approve of the output, you print it (again, there
+	are several ways to do this).
+\end{enumerate}
+We'll give an overview of these steps and then discuss the first 
+step in detail.
+
+\section{The Six Step Process}
+
+\subsection{The \texttt{.tex} file}
+
+The first step is to tell \latex what you want it to do, putting
+the instructions in a file that ends \texttt{.tex}.  For example,
+\texttt{example.tex}.
+This is an \texttt{ASCII} file, and you can use your favourite
+text editor.
+I'll stall on a detailed description of how to specify the file
+until later.
+
+\subsection{Processing the file}
+
+Depending on your computer system, there are a variety of
+ways to get \latex to process your file.
+Since the command line always works, we'll concentrate on that.
+You run \latex on the file \texttt{example.tex} by using the
+command:
+
+\begin{verbatim}
+latex example
+\end{verbatim}
+
+\latex prints out on the screen a summary of what it is doing,
+including complaints about bad line breaks and bad page breaks.
+For example, the following was \latex's summary for a preliminary
+version of this document.
+
+\begin{verbatim}
+This is TeX, Version 3.14159 (Web2C 7.3.1)
+(intro.tex
+LaTeX2e <1998/12/01> patch level 1
+Babel <v3.6x> and hyphenation patterns for american, french, german, ngerman, i
+talian, nohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/report.cls
+Document Class: report 1999/01/07 v1.4a Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size12.clo))
+(/Net/mathstat/Users/Fac/adonsig/TeX/macros/fullpage.sty
+Using full size pages: 'fullpage' documentstyle option
+) (intro.aux) [1] [1] [2] (/usr/share/texmf/tex/latex/base/omscmr.fd) [3]
+Overfull \hbox (21.37653pt too wide) in paragraph at lines 188--194
+[]\OT1/cmr/m/n/12 This ma-te-rial also il-lus-trates a few other changes from s
+tan-dard type-writer text. L[]T[]Xignores
+
+Overfull \hbox (18.95236pt too wide) in paragraph at lines 195--201
+\OT1/cmr/m/n/12 gives "I told you so", he said. It would be bet-ter to write th
+is as []\OT1/cmtt/m/n/12 ``I told you so'', he said. 
+[4] (intro.aux) )
+(see the transcript file for additional information)
+Output written on intro.dvi (5 pages, 11284 bytes).
+Transcript written on intro.log.
+\end{verbatim}
+
+\subsection{Fixing things on the fly}
+
+This is a bit of a black art.
+If \latex gets seriously confused, it will ask for your guidance.
+It looks like this on the screen
+
+\begin{verbatim}
+! Undefined control sequence.
+l.122 ...If you type \verbh
+                           +H+, then it tries to give
+? 
+\end{verbatim}
+
+You can tell \latex to give up by typing \verb+X+, and tell it to run
+without stopping for questions by typing \verb+R+.
+There are other options, for a complete list, type \verb+?+.
+If you type \texttt{H}, then it tries to give a more detailed
+explanation of the problem.  Here for example, typing \texttt{H}
+results in
+
+\begin{verbatim}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+\end{verbatim}
+
+\subsection{Viewing the \texttt{.dvi} file on the screen}
+
+There are several ways to view the file under Red Hat Linux.
+You can click on the \texttt{.dvi} file under the file viewer
+(KFM) or, using the command line again, you can type
+
+\begin{verbatim}
+kdvi example &
+\end{verbatim}
+
+The ampersand tells Linux to run \texttt{kdvi} in the background,
+so you can continue to use the command line without shutting down
+\texttt{kdvi}.
+If you run \latex a second time, \texttt{kdvi} will reload the 
+new \texttt{.dvi} file.
+
+\subsection{Revising the input}
+
+This is pretty much self-explanatory, although actually figuring
+out why the system is doing something strange can be a bit
+time-consuming.
+
+\subsection{Printing the \texttt{.dvi} file}
+
+Once you are happy enough with the output to print it, you can do
+this either directly from \texttt{kdvi}, using the print command
+under the file menu, or by using the command line:
+
+\begin{verbatim}
+dvips -P printer_name example
+\end{verbatim}
+
+\section{Advice on preparing the \texttt{.tex} file}
+
+It is impossible to give complete guidance for using \latex.
+There are whole books devoted to this subject, for example,
+\begin{itemize}
+\item L. Lamport, \latex : A Document Preparation System,
+	Second edition, Addison-Wesley, 199?.
+\item M. Goossens, F. Mittlebach, A. Samarin, The \latex Companion,
+	Addison-Wesley, 1994.
+\end{itemize}
+There are many other books, as well.
+
+There are also a number of free documents, available on the web.
+I would recommend \textsl{The Not So Short Introduction to
+\latex2e}, which has the promising subtitle \textsl{\latex2e
+in 90 minutes}.
+It is available from the Comprehensive TeX Archive,
+\texttt{www.ctan.org}, under the directory \texttt{info/lshort}.
+
+What follows is a short explanation of how to input basic
+text, some examples of mathematical typesetting, and
+\latex's approach to structuring documents.
+
+\subsection{Basic Text}
+
+The first step is to tell \LaTeX what you want it to do, putting
+the instructions in a file that ends \texttt{.tex}.  For example,
+\texttt{example.tex}.
+
+Text is entered in the obvious way, but quotation marks, such
+as (`), ('), (``), and (''), as well as dollar signs (\verb+$+) 
+---and a few others---require more care.
+
+There are ten special characters:
+
+\begin{verbatim} # $ % & ^ { } ~ _ \ 
+\end{verbatim}
+
+You can get some of these characters by putting a backslash
+(\verb+\+) in front of them, namely
+
+\begin{verbatim} \# \$  \% \& \{ \}
+\end{verbatim}
+
+The last three, \verb+~+, \verb+_+, and \verb+\+, are harder to obtain.
+You have to use the command \verb+\verb+, short for verbatim, as in
+\verb=\verb+~+=.
+As an example, here are the first two paragraphs of this section.
+
+\begin{verbatim}
+The first step is to tell \LaTeX what you want it to do, putting
+the instructions in a file that ends \texttt{.tex}.  For example,
+\texttt{example.tex}.
+
+Text is entered in the obvious way, but quotation marks, such
+as (`), ('), (``), and (''), as well as dollar signs (\verb+$+) 
+---and a few others---require more care.
+\end{verbatim}
+
+This material also illustrates a few other changes from standard
+typewriter text.
+\latex\ ignores the line breaks in the file, so you can arrange the
+text as you like.
+However, if you have two line breaks in a row, i.e., a blank line,
+then \latex interprets that to mean you want to start a new paragraph.
+
+Notice that that two single quotes, \verb+``+, are turned into
+nice looking double quotes, ``.
+If you type in the typewriter double quotes, \verb+"+, you get ",
+so \verb+"I told you so", he said.+ gives
+"I told you so", he said.
+Instead, write \verb+``I told you so'', he said.+
+
+Another issue is dashes.
+\latex provides three kinds of dashes: short ones, -, given by \verb+-+,
+medium sized ones, given by \verb+--+, and large ones, given by \verb+---+.
+As a contrived example, ``we consider x-rays on pages 142--145 of the
+next volume---as you will see''.
+
+One more thing, the character \verb+%+.
+This is used to say the rest of the line is a comment.
+For example,
+
+\begin{verbatim}
+% sample comment
+We prove the Riemann hypothesis.
+
+% insert proof here
+\end{verbatim}
+
+gives
+
+\bigskip
+% sample comment
+We prove the Riemann hypothesis.
+
+% insert proof here
+\bigskip
+
+If you type \verb+%+ instead of \verb+\%+, as in
+
+\begin{verbatim}
+. . . The Nebraska sales tax of 6.5% is about the same
+as the sales taxes of surrounding states . . . 
+\end{verbatim}
+
+then you get cryptic output
+
+\bigskip
+. . . The Nebraska sales tax of 6.5% is about the same
+as the sales taxes of surrounding states . . .
+\bigskip
+
+Commands in \latex start with \verb+\+.
+For example, the command \verb+\LaTeX+ produces funky looking logo, \latex.
+If you want \textit{italic text}, you would use
+\verb+\textit{italic text}+.
+This example also shows what \{ and \} are used for, namely to specify
+the scope of commands and to group things together.
+There are also commands for \texttt{typewriter text}, \verb+\texttt+,
+for \textsl{slanted text}, \verb+\textsl+, for \textbf{bold face text},
+\verb+\textbf+, for \textsf{sans serif text}, \verb+\textsf+, and
+for \textsc{small caps text}, \verb+\textsc+.
+
+\subsection{Mathematics}
+
+\latex has a special mode for equations and other mathematics;
+dollar signs (\$) mark the start and end of mathematical material.
+To put equations in-line, e.g., $x^n+y^n=z^n$, write
+\verb~$x^n+y^n=z^n$~.
+To display equations, e.g.,
+$$ f(x) = \int_{-\infty}^{+\infty} k(x,y) g(y) \, dy $$
+write
+\verb~$$ f(x) = \int_{-\infty}^{+\infty} k(x,y) g(y) \, dy $$~.
+The command \verb~\,~ creates a little extra space before $dy$.
+There are more mathematical commands than you can shake a stick at.
+For example, there are all kinds of arrows: $\Leftarrow$ is given by
+\verb+$\Leftarrow$+ and $\rightarrow$ is given by \verb~$\rightarrow$~.
+Here's Stirling's formula, for example:
+$$ \lim_{n \to \infty} \frac{n!}{\sqrt{2\pi} n^{n+1/2} e^{-n}} = 1 $$
+given by
+\verb~$$\lim_{n \to \infty} \frac{n!}{\sqrt{2\pi} n^{n+1/2} e^{-n}} = 1$$~.
+
+\subsection{Organizing the Text}
+
+The basic philosophy of \latex's commands is that the commands should
+reflect the high-level structure of the document, rather than the
+details of the typesetting.
+You tell \latex once, at the beginning of the file, what kind of document
+you're writing and then it interprets your high-level commands appropriately.
+This can be carried to extremes, but as a guiding principle, it works
+quite well.
+
+For example, the command to start a new section is \verb+\section+,
+followed by the title of the section, for example,
+\verb+\section{Advice on preparing the \texttt{.tex} file}+
+
+Some particularly useful commands are the ones for generating lists.
+The numbered list on the first page is given by
+
+\begin{verbatim}
+\LaTeX works in six steps.
+\begin{enumerate}
+\item You write a text file . . . 
+\item You process the text file, . . . 
+\item If \latex complains . . . 
+\item You look at the output  . . . 
+\item If you're not happy with the output, . . . 
+\item Once you approve of the output, . . . 
+\end{enumerate}
+We'll give an overview of these steps and then discuss the first . . .
+\end{verbatim}
+
+A good way to write a test is an enumerated list, using the command
+\verb~\vskip 3in~ to create spaces between questions; of course,
+you can adjust the space by changing \texttt{3in}.
+To start a new page, use the commands
+\begin{verbatim}
+\vfill
+\pagebreak
+\end{verbatim}
+If you want bullets, i.e., $\bullet$, instead of numbers, use
+\verb~\begin{itemize}~ and \verb~\end{itemize}~.
+
+Comprehensive descriptions of many more commands can be found in the 
+references mentioned earlier.
+
+Finally, let me mention the material at the start of the \texttt{.tex} 
+file that tells \latex how to format the file.
+For example, here is the header of this file:
+
+\begin{verbatim}
+% intro to latex   March 21, 2000
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+
+% define macros
+\newcommand{\latex}{\LaTeX}
+\newcommand{\tex}{\TeX}
+\newcommand{\vect}[1]{(#1_1,\ldots,#1_n)}
+
+\begin{document}
+\title{A Short Introduction to \latex}
+\author{Allan Donsig}
+\date{March, 2000}
+\maketitle
+
+\section{Typesetting, \tex, and \latex} 
+\end{verbatim}
+
+The first command says the document is an article and it should
+be formatted in twelve point (instead of the default ten point).
+The second says to use a package (packages are ubiquitous add-ons).
+In this case, the package changes the page size to fill up the page
+(\latex normally provides extravagantly wide margins).
+
+The next pair of commands themselves define new commands, namely
+\verb~\latex~ and \verb~\tex~,
+The third example is a commands with parameters, so that
+\verb~$\vect{x}$~ gives $\vect{x}$.
+
+The \verb+\begin{document}+ really gets the show on road, announcing
+that what follows is the document itself; there is a matching
+\verb+\end{document}+ at the end of the file.
+
+% and here it is.
+\end{document}

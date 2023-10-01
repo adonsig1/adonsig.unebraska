@@ -1,0 +1,100 @@
+\documentclass[12pt]{newtest}
+\usepackage{amsmath}
+\testdate{22 Apr 09}
+\course{Math 325-001}
+\header{Assignment \# 11 (last)}
+\instructions{Due: April 29th}
+
+\newcommand{\ii}{\vec{\imath}}
+\newcommand{\jj}{\vec{\jmath}}
+\newcommand{\kk}{\vec{k}}
+\newcommand{\vecc}[1]{\mathbf{#1}}
+\newcommand{\ep}{\epsilon}
+% \newcommand{\det}{\hbox{det}\,}
+\newcommand{\spann}{\hbox{span}\,}
+\newcommand{\lip}{\left\langle}
+\newcommand{\del}{\nabla}
+\newcommand{\rip}{\right\rangle}
+\newcommand{\rank}{\hbox{rank}\,}
+\newcommand{\Nul}{\hbox{Nul}\,}
+\newcommand{\Col}{\hbox{Col}\,}
+\newcommand{\mesh}{\hbox{mesh}\,}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bzero}{\mathbf{0}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bN}{\mathbf{N}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\sR}{\mathcal{R}}
+\newcommand{\sS}{\mathcal{S}}
+\newcommand{\sT}{\mathcal{T}}
+\newcommand{\dsum}{\sum\limits}
+\newcommand{\dlim}{\lim\limits}
+\newcommand{\dlimsup}{\limsup\limits}
+\newcommand{\dliminf}{\liminf\limits}
+\newcommand{\pder}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\ppder}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+
+
+\newcommand{\extra}{\textsc{Extra Credit:}\,\,}
+\newcommand{\hint}{\textsc{Hint:}\,\,}
+\newcommand{\qhint}{\quad \hint}
+\newcommand{\bhint}{\\ \hint}
+\newcommand{\note}{\textsc{Note:}\,\,}
+
+\begin{document}
+\question{Define $f : \bbR \to \bbR$ by $f(x) =\sin(1/x)$ for $x \ne 0$ and
+$f(0)=0$.
+Show that $f$ has the intermediate value property.
+
+\note of course, $f$ is not continuous.
+}{
+}
+\question{
+By directly verifying the $\delta-\epsilon$ condition, show that $f(x)=x^2$ 
+is uniformly continuous on $[0,5]$.
+}{
+}
+\question{
+\begin{enumerate}
+\item Show that if $f : D \to \bbR$ is uniformly continuous on $D$ and
+$S \subseteq D$ is a bounded set, then $f$ is a bounded function on $S$,
+that is $\{ f(x) : x \in S\}$ is a bounded set.
+\bhint assume not and use the Bolzano-Weierstrass Theorem and Theorem 19.4 
+(uniformly continuous functions preserve Cauchy sequences).
+\item Use part~(a) to give another proof that $f(x)=1/x^2$ is not uniformly
+continuous on $(0,1)$.
+\end{enumerate}
+}{
+}
+\question{
+Suppose that $f : \bbR \to \bbR$ is continuous and periodic, that is, there is $d > 0$ 
+so that $f(x+d)=f(x)$ for all $x \in \bbR$.
+Show that there are $x_{\hbox{min}}, x_{\hbox{max\vphantom{i}}} \in \bbR$ so that
+for all $x \in \bbR$,
+\[ f(x_{\hbox{min}}) \le f(x) \le f(x_{\hbox{max\vphantom{i}}}). \]
+Further, show that $f$ is uniformly continuous on $\bbR$.
+\bhint For the last part, show $f$ is uniformly continuous on $[0,2d]$ and use translation.
+}{
+}
+\question{
+\extra
+Suppose that $f : \bbR \to \bbR$ is continuous.
+Show that $f$ cannot take every real value exactly twice.
+Give an example to show that $f$ can take every real value exactly three times.
+}{
+}
+\end{document}

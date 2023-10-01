@@ -1,0 +1,104 @@
+\documentclass[12pt]{newtest}
+\usepackage{amsmath}
+\testdate{15 Apr 09}
+\course{Math 325-001}
+\header{Assignment \# 10}
+\instructions{Due: April 22nd}
+
+\newcommand{\ii}{\vec{\imath}}
+\newcommand{\jj}{\vec{\jmath}}
+\newcommand{\kk}{\vec{k}}
+\newcommand{\vecc}[1]{\mathbf{#1}}
+\newcommand{\ep}{\epsilon}
+% \newcommand{\det}{\hbox{det}\,}
+\newcommand{\spann}{\hbox{span}\,}
+\newcommand{\lip}{\left\langle}
+\newcommand{\del}{\nabla}
+\newcommand{\rip}{\right\rangle}
+\newcommand{\rank}{\hbox{rank}\,}
+\newcommand{\Nul}{\hbox{Nul}\,}
+\newcommand{\Col}{\hbox{Col}\,}
+\newcommand{\mesh}{\hbox{mesh}\,}
+\newcommand{\bbF}{\mathbb{F}}
+\newcommand{\bbI}{\mathbb{I}}
+\newcommand{\bbN}{\mathbb{N}}
+\newcommand{\bbP}{\mathbb{P}}
+\newcommand{\bbQ}{\mathbb{Q}}
+\newcommand{\bbR}{\mathbb{R}}
+\newcommand{\bbZ}{\mathbb{Z}}
+\newcommand{\bzero}{\mathbf{0}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bN}{\mathbf{N}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\sR}{\mathcal{R}}
+\newcommand{\sS}{\mathcal{S}}
+\newcommand{\sT}{\mathcal{T}}
+\newcommand{\dsum}{\sum\limits}
+\newcommand{\dlim}{\lim\limits}
+\newcommand{\dlimsup}{\limsup\limits}
+\newcommand{\dliminf}{\liminf\limits}
+\newcommand{\pder}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\ppder}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+
+
+\newcommand{\extra}{\textsc{Extra Credit:}\,\,}
+\newcommand{\hint}{\textsc{Hint:}\,\,}
+\newcommand{\qhint}{\quad \hint}
+\newcommand{\bhint}{\\ \hint}
+\newcommand{\note}{\textsc{Note:}\,\,}
+
+\begin{document}
+\question{
+Using the $\delta-\epsilon$ condition, show that $f(x)=x^3$ is continuous
+at an arbitrary $x_0 \in \bbR$.
+\hint $x^3-x_0^3=(x-x_0)(x^2+xx_0+x_0^2)$.
+}{
+}
+\question{
+Define $f : \bbR \to \bbR$ by $f(x)=x \chi_{\bbQ}(x)$.  That is,
+$f(x)$ is $0$ for $x$ irrational and is $x$ for $x \in \bbQ$.
+Show that $f$ is continuous at $0$ and that this is the only point
+where $f$ is continuous.
+}{
+}
+\question{
+\begin{enumerate}
+\item Suppose $f : (a,b) \to \bbR$ is continuous.  Show that if $f(r)=0$
+for each rational number $r \in (a,b)$, then $f(x)=0$ for all $x \in (a,b)$.
+\item Suppose $f,g : (a,b) \to \bbR$ are continuous.  Show that if $f(r)=g(r)$
+for each rational number $r \in (a,b)$, then $f=g$.
+\end{enumerate}
+}{
+}
+\question{
+Suppose that $f : [0,2] \to \bbR$ is continuous and $f(0)=f(2)$.
+Prove that there $x,y \in [0,2]$ so that $|x-y|=1$ and $f(x)=f(y)$.
+\hint consider $g(x)=f(x+1)-f(x)$ for $x \in [0,1]$.
+}{
+}
+\question{
+Suppose that $f : [a,b] \to \bbR$ and $g: [b,c] \to \bbR$ are both continuous
+and $f(b)=g(b)$.
+Define $h : [a,c] \to \bbR$ by 
+\[ h(x) = \begin{cases} f(x) & \hbox{if $x \in [a,b]$,}\\ g(x) & \hbox{if $x \in (b,c]$.}
+	\end{cases} \]
+Show that $h$ is continuous on $[a,c]$.
+}{
+}
+\question{
+\extra
+Suppose that $f : \bbR \to \bbR$ satisfies $f(u+v)=f(u)+f(v)$ for all $u,v \in \bbR$.
+Show that if $f$ is continuous, then there is some $m \in \bbR$ so that 
+for all $x \in \bbR$, $f(x)=mx$.
+\bhint start with $u$ and $v$ integers.
+}{
+}
+\end{document}
